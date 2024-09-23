@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "ESD Status Board";
+}
+
+<head>
+    <title>Employee Data</title>
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <link rel="stylesheet" href="~/Content/css/info.css" />
+
+</head>
+
+<div class="container-fluid">
+    <div class="form-group mt-3">
+        <label for="equNo">Chọn XƯỞNG:</label>
+        <select id="equNo" class="form-control custom-width" onchange="fetchData()">
+            <option value="004">Xưởng F06</option>
+            <option value="006">Xưởng F16</option>
+
+            <!-- Thêm các cửa khác nếu cần -->
+        </select>
+    </div>
+    <!-- Title -->
+    <h2>Cửa @ViewBag.Equno</h2>
+    <!-- Thực hiện hiển thị dữ liệu tương ứng với Equno -->
+    <h2 class="text-center m-3">Thông tin trạng thái trước khi vào xưởng</h2>
+    <h2 class="text-center m-3">ESD 测试失败报警看板</h2>
+
+    <!-- Table -->
+    <div class="my-table-responsive">
+        <div class="table-container">
+            <div class="table-wrapper">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/scripts/scripts.js"></script>

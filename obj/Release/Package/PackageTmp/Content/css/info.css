@@ -1,0 +1,131 @@
+﻿/* Đảm bảo table có layout phù hợp */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.table-container {
+    width: 90%;
+    background-color: transparent;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden; /* Ẩn thanh cuộn của phần tử chứa bảng */
+}
+
+    .table-container table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+h2 {
+    margin-bottom: 40px;
+    font-family: Arial, sans-serif;
+    color: yellow;
+    text-align: center;
+    font-size: 40px;
+}
+
+.custom-table {
+    background-color: rgba(1, 40, 70, 0.9);
+    color: white;
+    padding: 5px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    table-layout: fixed; /* Cố định chiều rộng của các cột */
+    width: 90%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng container */
+}
+
+    .custom-table th {
+        background-color: darkslategrey;
+        color: yellow;
+        font-size: 30px;
+    }
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 2; /* Đảm bảo thead nằm trên tbody */
+    background-color: #007bff; /* Màu nền của thead */
+}
+
+    thead th {
+        width: auto; /* Đảm bảo chiều rộng th có thể điều chỉnh */
+        white-space: nowrap; /* Đảm bảo nội dung không bị ngắt dòng */
+    }
+
+.table-container tbody {
+    display: block;
+    max-height: 400px; /* Chiều cao cuộn của bảng */
+    overflow-y: scroll; /* Kích hoạt cuộn dọc */
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+    -ms-overflow-style: none; /* Ẩn thanh cuộn trên IE và Edge */
+}
+
+    .table-container tbody::-webkit-scrollbar {
+        display: none; /* Ẩn thanh cuộn cho các trình duyệt WebKit như Chrome, Safari */
+    }
+
+    .table-container thead, .table-container tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed; /* Đảm bảo chiều rộng các cột không bị thay đổi */
+    }
+
+.custom-tbody td {
+    white-space: nowrap; /* Không ngắt dòng nội dung */
+}
+
+.table-danger, .table-danger > td, .table-danger > th {
+    background-color: red;
+}
+
+.table-bordered td, .table-bordered th {
+    border: 2px solid #dee2e6;
+}
+
+.table thead th, .table tbody td {
+    word-wrap: break-word; /* Đảm bảo nội dung dài sẽ được cắt gọn để không gây lệch cột */
+}
+
+.table-wrapper {
+    max-height: 100%; /* Đảm bảo chiều cao không vượt quá container */
+    position: relative;
+    margin: 20px;
+    /* overflow-y: auto; */ /* Cho phép cuộn dọc (đã được loại bỏ do thuộc tính đã được áp dụng ở nơi khác) */
+    -ms-overflow-style: none; /* Ẩn thanh cuộn trên Internet Explorer và Edge */
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+}
+
+.custom-table th:nth-child(1), .custom-table td:nth-child(1) {
+    width: 10%; /* Thay đổi kích thước cột Mã thẻ */
+}
+
+.custom-table th:nth-child(2), .custom-table td:nth-child(2) {
+    width: 20%; /* Thay đổi kích thước cột Họ tên */
+}
+
+.custom-table th:nth-child(3), .custom-table td:nth-child(3) {
+    width: 10%; /* Thay đổi kích thước cột Bộ phận */
+}
+
+.custom-table th:nth-child(4), .custom-table td:nth-child(4) {
+    width: 30%; /* Thay đổi kích thước cột Trạng thái */
+}
+
+.custom-table th:nth-child(5), .custom-table td:nth-child(5) {
+    width: 30%; /* Thay đổi kích thước cột Thời gian */
+}
+
+tr {
+    display: table; /* Đảm bảo các hàng của tbody vẫn hiển thị như bảng */
+    width: 100%; /* Đặt chiều rộng cho các hàng */
+    table-layout: fixed; /* Đảm bảo các cột có chiều rộng cố định */
+}

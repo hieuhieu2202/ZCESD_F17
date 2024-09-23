@@ -1,4 +1,4 @@
-﻿/* Cấu hình cho video nền */
+﻿/* Đảm bảo table có layout phù hợp */
 .video-background {
     position: fixed;
     top: 0;
@@ -9,208 +9,145 @@
     z-index: -1;
 }
 
-/* Định dạng tiêu đề h2 */
+
+
 h2 {
     margin-bottom: 40px;
     font-family: Arial, sans-serif;
     color: yellow;
+    text-align: center;
     font-size: 40px;
 }
 
-/* Phần tử chứa bảng */
+.dropdown-container {
+    position: fixed; /* Định vị cố định */
+    top: 20px; /* Khoảng cách từ trên */
+    right: 20px; /* Khoảng cách từ bên phải */
+    z-index: 1000; /* Đảm bảo nằm trên các phần tử khác */
+    background-color: white; /* Nền trắng để dễ nhìn */
+    padding: 10px; /* Padding cho dropdown */
+    border-radius: 5px; /* Bo góc */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    width: auto; /* Chiều rộng tự động */
+    max-width: 200px; /* Kích thước tối đa của dropdown */
+}
+
+    .dropdown-container select {
+        width: 100%; /* Chiều rộng 100% cho dropdown */
+    }
+.custom-width{
+    
+    width: 150px;
+    float: right;
+}
 .table-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    width: 100%;
-    z-index: 1;
-    text-align: center;
-}
-
-/* General HTML and Body Styling */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden; /* Disable scrollbars */
-}
-
-/* Alert Container */
-#alertContainer {
     width: 90%;
     background-color: transparent;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden; /* Ẩn thanh cuộn của phần tử chứa bảng */
 }
 
-/* Định dạng chung cho các mục cảnh báo */
-.alert-item {
+    .table-container table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+.custom-table {
     background-color: rgba(1, 40, 70, 0.9);
     color: white;
     padding: 5px;
     border-radius: 8px;
     margin-bottom: 10px;
-    width: 100%;
-    text-align: center;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
     border: 5px solid rgba(255, 255, 255, 0.2);
+    table-layout: fixed; /* Cố định chiều rộng của các cột */
+    width: 90%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng container */
 }
 
-    /* Hiệu ứng ẩn */
-    .alert-item.hidden {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    /* Định dạng bảng bên trong cảnh báo */
-    .alert-item table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    /* Định dạng ô và tiêu đề bảng */
-    .alert-item th, .alert-item td {
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 5px;
-        text-align: center;
-        font-size: 20px;
-    }
-
-    /* Định dạng tiêu đề bảng */
-    .alert-item th {
-        background-color: transparent;
+    .custom-table th {
+        background-color: darkslategrey;
         color: yellow;
+        font-size: 30px;
     }
 
-    /* Định dạng hàng chẵn và lẻ */
-    .alert-item tr:nth-child(even) {
-        background-color: rgba(255, 255, 255, 0.5);
-    }
-
-    .alert-item tr:hover {
-        background-color: rgba(255, 255, 255, 0.6);
-    }
-
-    /* Định dạng hàng có trạng thái "fail" */
-    .alert-item tbody tr.fail {
-        background-color: rgba(255, 0, 0, 1);
-        color: white;
-        border: 1px solid white;
-    }
-
-    /* Định dạng hàng có trạng thái "pass" */
-    .alert-item tbody tr.pass {
-        background-color: rgba(0, 255, 0, 0.5);
-    }
-
-    /* Định dạng viền cho bảng */
-    .alert-item tbody tr td {
-        padding: 8px;
-        border: 2px solid white; /* Viền dưới trắng */
-    }
-
-
-
-/* Định dạng bảng */
-#alertTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    display: none;
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 2; /* Đảm bảo thead nằm trên tbody */
+    background-color: #007bff; /* Màu nền của thead */
 }
 
-    /* Hiển thị bảng khi có dữ liệu */
-    #alertTable.show {
+    thead th {
+        width: auto; /* Đảm bảo chiều rộng th có thể điều chỉnh */
+        white-space: nowrap; /* Đảm bảo nội dung không bị ngắt dòng */
+    }
+
+.table-container tbody {
+    display: block;
+    max-height: 400px; /* Chiều cao cuộn của bảng */
+    overflow-y: scroll; /* Kích hoạt cuộn dọc */
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+    -ms-overflow-style: none; /* Ẩn thanh cuộn trên IE và Edge */
+}
+
+    .table-container tbody::-webkit-scrollbar {
+        display: none; /* Ẩn thanh cuộn cho các trình duyệt WebKit như Chrome, Safari */
+    }
+
+    .table-container thead, .table-container tbody tr {
         display: table;
+        width: 100%;
+        table-layout: fixed; /* Đảm bảo chiều rộng các cột không bị thay đổi */
     }
 
-    /* Định dạng tiêu đề bảng */
-    #alertTable thead th {
-        background-color: #f4f4f4;
-        color: #333;
-        padding: 10px;
-        text-align: left;
-        border-bottom: 5px solid #ddd;
-    }
-
-    /* Định dạng hàng chẵn và lẻ */
-    #alertTable tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-
-    #alertTable tbody tr:nth-child(odd) {
-        background-color: #ffffff;
-    }
-
-    /* Định dạng ô */
-    #alertTable tbody td {
-        padding: 10px;
-        border: 1px solid #ddd;
-        color: #333;
-    }
-
-    /* Định dạng hàng lỗi trong bảng alertTable */
-    #alertTable tbody tr.fail {
-        background-color: #fdd;
-        border: #fff;
-    }
-
-/* Kích thước lớn cho văn bản */
-.large-text td {
-    font-size: 30px;
-}
-table {
-    width: 100%;
-    border-collapse: separate;
+.custom-tbody td {
+    white-space: nowrap; /* Không ngắt dòng nội dung */
 }
 
-/* Định dạng footer */
-
-
-@keyframes moveAndChangeColor {
-    0% {
-        transform: translateX(-50%); /* Bắt đầu từ bên trái màn hình */
-        color: white; 
-        text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
-    }
-
-    25% {
-        transform: translateX(-25%); /* Di chuyển tới giữa màn hình */
-        color: red; 
-        text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
-    }
-
-    50% {
-        transform: translateX(0); /* Di chuyển đến giữa màn hình */
-        color: yellow; 
-        text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
-    }
-
-    75% {
-        transform: translateX(25%); /* Di chuyển đến giữa màn hình bên phải */
-        color: orange; 
-        text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
-    }
-
-    100% {
-        transform: translateX(50%); /* Di chuyển đến bên phải màn hình */
-        color: forestgreen;
-        text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
-    }
+.table-danger, .table-danger > td, .table-danger > th {
+    background-color: red;
 }
 
-footer {
-
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    background: none; /* Nền trong suốt để chữ nổi bật hơn */
-    color: white;
-    /*z-index: 1;*/
-    font-size: 30px;
-    animation: moveAndChangeColor 15s linear infinite;
-    padding: 20px;
-    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/ /* Đổ bóng để nổi bật hơn */
-    overflow: hidden;
+.table-bordered td, .table-bordered th {
+    border: 2px solid #dee2e6;
 }
 
+.table thead th, .table tbody td {
+    word-wrap: break-word; /* Đảm bảo nội dung dài sẽ được cắt gọn để không gây lệch cột */
+}
+
+.table-wrapper {
+    max-height: 100%; /* Đảm bảo chiều cao không vượt quá container */
+    position: relative;
+    margin: 20px;
+    /* overflow-y: auto; */ /* Cho phép cuộn dọc (đã được loại bỏ do thuộc tính đã được áp dụng ở nơi khác) */
+    -ms-overflow-style: none; /* Ẩn thanh cuộn trên Internet Explorer và Edge */
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+}
+
+.custom-table th:nth-child(1), .custom-table td:nth-child(1) {
+    width: 10%; /* Thay đổi kích thước cột Mã thẻ */
+}
+
+.custom-table th:nth-child(2), .custom-table td:nth-child(2) {
+    width: 20%; /* Thay đổi kích thước cột Họ tên */
+}
+
+.custom-table th:nth-child(3), .custom-table td:nth-child(3) {
+    width: 10%; /* Thay đổi kích thước cột Bộ phận */
+}
+
+.custom-table th:nth-child(4), .custom-table td:nth-child(4) {
+    width: 30%; /* Thay đổi kích thước cột Trạng thái */
+}
+
+.custom-table th:nth-child(5), .custom-table td:nth-child(5) {
+    width: 30%; /* Thay đổi kích thước cột Thời gian */
+}
+
+tr {
+    display: table; /* Đảm bảo các hàng của tbody vẫn hiển thị như bảng */
+    width: 100%; /* Đặt chiều rộng cho các hàng */
+    table-layout: fixed; /* Đảm bảo các cột có chiều rộng cố định */
+}

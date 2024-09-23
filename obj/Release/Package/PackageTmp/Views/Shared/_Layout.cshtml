@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <!-- Liên kết tới Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Liên kết tới file CSS của bạn -->
+    <link href="~/Content/css/info.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <!-- Liên kết tới file CSS của bạn -->
+    <!-- Thư viện jQuery -->
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <!-- Thư viện jQuery -->
+
+</head>
+<body>
+    <!-- Video nền -->
+        
+    <!-- Container Bootstrap -->
+    <div class="background-overlay">
+        <video class="video-background" id="video" autoplay muted loop playsinline>
+            <source src="~/assets/videos/background.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        @RenderBody()
+    </div>
+
+    <footer>
+        <p>&copy; MBD-AIOT TEAM</p>
+    </footer>
+
+    <!-- Liên kết tới Bootstrap JS (nếu cần) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
