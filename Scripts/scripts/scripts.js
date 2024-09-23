@@ -173,64 +173,132 @@ $(function () {
     };
 
     // Hàm cập nhật dropdown từ URL
+    //function updateDropdownFromUrl() {
+    //    var urlParams = new URLSearchParams(window.location.search);
+    //    var workshopFromUrl = urlParams.get('Factory'); // Lấy Factory từ URL
+    //    var floorFromUrl = urlParams.get('Floor'); // Lấy Floor từ URL
+
+    //    // Cập nhật giá trị dropdown với Factory từ URL
+    //    if (workshopFromUrl) {
+    //        $('#workshop').val(workshopFromUrl); // Cập nhật dropdown với giá trị từ URL
+    //        updateFloors(workshopFromUrl, floorFromUrl); // Cập nhật tầng sau khi xưởng được chọn
+    //    }
+
+    //    // Cập nhật giá trị dropdown với Floor từ URL
+    //    if (floorFromUrl) {
+    //        $('#floor').val(floorFromUrl); // Cập nhật dropdown với giá trị từ URL
+    //    }
+
+    //    // Gọi fetchData chỉ khi cả workshop và floor đều có giá trị
+    //    fetchData();
+    //}
+
+    //// Hàm cập nhật tầng
+    //window.updateFloors = function (workshop, floorFromUrl) {
+    //    var $floorSelect = $('#floor');
+    //    $floorSelect.empty();
+    //    $floorSelect.append('<option value="">Chọn tầng</option>');
+
+    //    console.log('Selected workshop:', workshop); // Debug
+    //    if (floorData[workshop]) {
+    //        floorData[workshop].forEach(function (floor) {
+    //            $floorSelect.append('<option value="' + floor + '">' + floor + '</option>');
+    //        });
+    //    } else {
+    //        console.log('No floors available for this workshop.'); // Debug
+    //    }
+
+    //    // Cập nhật lại giá trị floor nếu có từ URL
+    //    if (floorFromUrl) {
+    //        $floorSelect.val(floorFromUrl); // Đặt giá trị cho floor từ URL
+    //    }
+
+    //    updateUrl($floorSelect.val()); // Cập nhật URL với giá trị floor hiện tại
+    //    fetchData(); // Gọi fetchData sau khi cập nhật tầng
+    //};
+
+    //// Hàm cập nhật URL
+    //function updateUrl(selectedFloor) {
+    //    var workshop = $('#workshop').val();
+    //    var url = new URL(window.location);
+    //    url.pathname = '/'; // Đặt lại pathname thành gốc
+    //    url.searchParams.set('Factory', workshop); // Thêm tham số Factory
+    //    url.searchParams.set('Floor', selectedFloor); // Cập nhật tham số Floor, nếu không có thì để trống
+    //    history.replaceState(null, '', url); // Thay đổi URL mà không làm mới trang
+    //}
+
+    //// Hàm fetchData
+    //window.fetchData = function () {
+    //    var workshop = $('#workshop').val();
+    //    var floor = $('#floor').val();
+    //    if (esdFaceHub.connection.state === $.signalR.connectionState.connected) { // Kiểm tra trạng thái kết nối
+    //        if (workshop && floor) {
+    //            esdFaceHub.server.getEmployeeData(workshop, floor); // Gọi phương thức lấy dữ liệu với xưởng và tầng
+    //        }
+    //    } else {
+    //        console.log('SignalR connection not established.');
+    //    }
+    //};
+
+    //// Gán sự kiện change cho #workshop
+    //$('#workshop').change(function () {
+    //    var workshop = $(this).val();
+    //    updateFloors(workshop); // Cập nhật tầng khi chọn xưởng
+    //});
+
+    //// Gán sự kiện change cho #floor
+    //$('#floor').change(function () {
+    //    var selectedFloor = $(this).val();
+    //    updateUrl(selectedFloor); // Cập nhật URL khi chọn tầng
+    //    fetchData(); // Gọi hàm fetchData
+    //});
+
+    //// Gọi hàm updateDropdownFromUrl khi trang được tải
+    //$(document).ready(function () {
+    //    updateDropdownFromUrl(); // Cập nhật dropdown từ URL
+    //});
+
+
+
+
+    // Hàm kiểm tra và ẩn bảng nếu không có cảnh báo
+    // Hàm cập nhật từ URL
     function updateDropdownFromUrl() {
         var urlParams = new URLSearchParams(window.location.search);
         var workshopFromUrl = urlParams.get('Factory'); // Lấy Factory từ URL
         var floorFromUrl = urlParams.get('Floor'); // Lấy Floor từ URL
 
-        // Cập nhật giá trị dropdown với Factory từ URL
-        if (workshopFromUrl) {
-            $('#workshop').val(workshopFromUrl); // Cập nhật dropdown với giá trị từ URL
-            updateFloors(workshopFromUrl, floorFromUrl); // Cập nhật tầng sau khi xưởng được chọn
-        }
+        // Kiểm tra xem xưởng có tồn tại trong dữ liệu không
+        if (workshopFromUrl && floorData[workshopFromUrl]) {
+            // Cập nhật và hiển thị kết quả
+            console.log('Selected workshop:', workshopFromUrl);
 
-        // Cập nhật giá trị dropdown với Floor từ URL
-        if (floorFromUrl) {
-            $('#floor').val(floorFromUrl); // Cập nhật dropdown với giá trị từ URL
+            // Cập nhật tầng
+            updateFloors(workshopFromUrl, floorFromUrl);
+        } else {
+            console.log('Workshop không hợp lệ hoặc không có dữ liệu.');
         }
-
-        // Gọi fetchData chỉ khi cả workshop và floor đều có giá trị
-        fetchData();
     }
 
     // Hàm cập nhật tầng
     window.updateFloors = function (workshop, floorFromUrl) {
-        var $floorSelect = $('#floor');
-        $floorSelect.empty();
-        $floorSelect.append('<option value="">Chọn tầng</option>');
-
-        console.log('Selected workshop:', workshop); // Debug
+        console.log('Updating floors for workshop:', workshop); // Debug
         if (floorData[workshop]) {
-            floorData[workshop].forEach(function (floor) {
-                $floorSelect.append('<option value="' + floor + '">' + floor + '</option>');
-            });
-        } else {
-            console.log('No floors available for this workshop.'); // Debug
-        }
+            // Hiển thị tầng hợp lệ
+            console.log('Floors available:', floorData[workshop]);
 
-        // Cập nhật lại giá trị floor nếu có từ URL
-        if (floorFromUrl) {
-            $floorSelect.val(floorFromUrl); // Đặt giá trị cho floor từ URL
+            // Nếu có tầng từ URL, kiểm tra tính hợp lệ
+            if (floorFromUrl && floorData[workshop].includes(floorFromUrl)) {
+                console.log('Selected floor:', floorFromUrl); // Debug
+                fetchData(workshop, floorFromUrl); // Gọi hàm fetchData với thông tin đã chọn
+            } else {
+                console.log('Floor không hợp lệ hoặc không có dữ liệu.');
+            }
         }
-
-        updateUrl($floorSelect.val()); // Cập nhật URL với giá trị floor hiện tại
-        fetchData(); // Gọi fetchData sau khi cập nhật tầng
     };
 
-    // Hàm cập nhật URL
-    function updateUrl(selectedFloor) {
-        var workshop = $('#workshop').val();
-        var url = new URL(window.location);
-        url.pathname = '/'; // Đặt lại pathname thành gốc
-        url.searchParams.set('Factory', workshop); // Thêm tham số Factory
-        url.searchParams.set('Floor', selectedFloor); // Cập nhật tham số Floor, nếu không có thì để trống
-        history.replaceState(null, '', url); // Thay đổi URL mà không làm mới trang
-    }
-
     // Hàm fetchData
-    window.fetchData = function () {
-        var workshop = $('#workshop').val();
-        var floor = $('#floor').val();
+    window.fetchData = function (workshop, floor) {
         if (esdFaceHub.connection.state === $.signalR.connectionState.connected) { // Kiểm tra trạng thái kết nối
             if (workshop && floor) {
                 esdFaceHub.server.getEmployeeData(workshop, floor); // Gọi phương thức lấy dữ liệu với xưởng và tầng
@@ -240,28 +308,10 @@ $(function () {
         }
     };
 
-    // Gán sự kiện change cho #workshop
-    $('#workshop').change(function () {
-        var workshop = $(this).val();
-        updateFloors(workshop); // Cập nhật tầng khi chọn xưởng
-    });
-
-    // Gán sự kiện change cho #floor
-    $('#floor').change(function () {
-        var selectedFloor = $(this).val();
-        updateUrl(selectedFloor); // Cập nhật URL khi chọn tầng
-        fetchData(); // Gọi hàm fetchData
-    });
-
     // Gọi hàm updateDropdownFromUrl khi trang được tải
     $(document).ready(function () {
-        updateDropdownFromUrl(); // Cập nhật dropdown từ URL
+        updateDropdownFromUrl(); // Cập nhật từ URL
     });
-
-
-
-
-    // Hàm kiểm tra và ẩn bảng nếu không có cảnh báo
     function checkAndHideTable() {
         if (alertQueue.find('tbody tr').length === 0) {
             alertQueue.hide(); // Hide alertQueue if there's no data
