@@ -4,9 +4,9 @@
 public class ESDFaceHub : Hub
 {
     private ESDFaceDAO employeeService = new ESDFaceDAO();
-    public void GetEmployeeData(string equNo)
+    public void GetEmployeeData(string workshop, string floor)
     {
-        var employeeData = employeeService.GetEmployeeData(equNo);
+        var employeeData = employeeService.GetEmployeeData(workshop,floor);
 
         Clients.All.updateEmployeeData(employeeData);
     }

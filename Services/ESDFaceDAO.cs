@@ -9,13 +9,13 @@ public class ESDFaceDAO
 {
     private string connectionString = ConfigurationManager.ConnectionStrings["MySqlConnection"].ConnectionString;
 
-    public List<ESDFaceModel> GetEmployeeData(string EquNo)
+    public List<ESDFaceModel> GetEmployeeData(string workshop, string floor)
     {
         var employeeList = new List<ESDFaceModel>();
 
         
         string query = @"
-                    SELECT 
+                    SELECT distinct 
                         t1.userid AS 'MaThe', 
                         t1.username AS 'HoTen',  
                         t1.tenbophan as 'TenBoPhan',
@@ -46,10 +46,12 @@ public class ESDFaceDAO
                             dept ON userinfo.deptid = dept.id
                         INNER JOIN 
                             door_record ON door_record.cardid = userinfo.userid
-                        WHERE 
-		                    EquNo = @EquNo AND
+                        INNER JOIN 
+                            doorinfo ON doorinfo.EquID = door_record.EquNo 
+                        WHERE     
                             door_record.OperDt >= CURDATE() - INTERVAL 1 DAY 
                             AND door_record.OperDt < CURDATE() + INTERVAL 1 DAY
+                            AND doorinfo.DoorPos LIKE @DoorPosCondition
                     ) t1
                     INNER JOIN (
                         SELECT 
@@ -70,7 +72,7 @@ public class ESDFaceDAO
         using (var connection = new MySqlConnection(connectionString))
         {
             var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@EquNo", EquNo); // Truyền giá trị cửa vào tham số EquNo
+            command.Parameters.AddWithValue("@DoorPosCondition", $"%{workshop}-{floor}%");
             connection.Open();
 
             using (var reader = command.ExecuteReader())

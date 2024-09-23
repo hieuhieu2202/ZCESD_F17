@@ -14,16 +14,19 @@
 
 <div class="container-fluid">
     <div class="form-group mt-3">
-        <label for="equNo">Chọn XƯỞNG:</label>
-        <select id="equNo" class="form-control custom-width" onchange="fetchData()">
-            <option value="004">Xưởng F06</option>
-            <option value="006">Xưởng F16</option>
 
-            <!-- Thêm các cửa khác nếu cần -->
+        <select id="workshop" class="form-control custom-width" onchange="updateFloors()">
+            <option value="">Chọn xưởng</option>
+            <option value="F06">Xưởng F06</option>
+            <option value="F16">Xưởng F16</option>
+        </select>
+
+        <select id="floor" class="form-control custom-width" onchange="fetchData()">
+            <option value="">Chọn tầng</option>
+            <!-- Tầng sẽ được cập nhật động -->
         </select>
     </div>
     <!-- Title -->
-    <h2>Cửa @ViewBag.Equno</h2>
     <!-- Thực hiện hiển thị dữ liệu tương ứng với Equno -->
     <h2 class="text-center m-3">Thông tin trạng thái trước khi vào xưởng</h2>
     <h2 class="text-center m-3">ESD 测试失败报警看板</h2>

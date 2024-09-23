@@ -159,224 +159,107 @@
 //    updateContainerHeight();
 //    updateTbodyHeight();
 //});
-//$(function () {
-//    var esdFaceHub = $.connection.eSDFaceHub;
-//    var alertQueue = $('.table-wrapper'); // Element that holds the alerts
-//    var currentData = {}; // Object to store current alert data keyed by card code
-
-//    // Function to filter based on selected doors
-//    var urlParams = new URLSearchParams(window.location.search);
-//    var equNoFromUrl = urlParams.get('Equno');
-
-//    // Cập nhật giá trị dropdown và lấy dữ liệu nếu có Equno từ URL
-//    if (equNoFromUrl) {
-//        $('#equNo').val(equNoFromUrl); // Cập nhật dropdown với giá trị từ URL
-//        fetchData(); // Gọi hàm fetchData để lấy dữ liệu cho cửa đã chọn
-//    }
-
-//    function fetchData() {
-//        var equNo = $('#equNo').val();
-//        esdFaceHub.server.getEmployeeData(equNo);
-//    }
-
-//    // Lắng nghe sự kiện thay đổi trên <select> bằng jQuery
-//    $('#equNo').change(fetchData);
-//    function getSelectedDoors() {
-//        return $('#equNo').val() || []; // Get selected door values, or return an empty array if none selected
-//    }
-
-//    // Function to check and hide the table if no alerts are present
-//    function checkAndHideTable() {
-//        if (alertQueue.find('tbody tr').length === 0) {
-//            alertQueue.hide(); // Hide alertQueue if there's no data
-//        }
-//    }
-
-//    // Function to create the table if needed
-//    function createTableIfNeeded() {
-//        if (alertQueue.find('table').length === 0) {
-//            alertQueue.append(`
-//                <table class="table table-bordered table-hover table-striped text-center custom-table">
-//                    <thead class="text-yellow">
-//                        <tr>
-//                            <th>Mã thẻ<br />卡码</th>
-//                            <th>Họ tên<br />姓名</th>
-//                            <th>Bộ phận<br />部分</th>
-//                            <th>Trạng thái<br />地位</th>
-//                            <th>Thời gian<br />时间</th>
-//                        </tr>
-//                    </thead>
-//                    <tbody id="alert-body"></tbody>
-//                </table>
-//            `);
-//        }
-//        alertQueue.show(); // Show the table
-//    }
-//    // Hàm cập nhật chiều cao của alertQueue và #alert-body
-//        function updateContainerHeight() {
-//            var $footer = $('footer');
-//            var footerHeight = $footer.outerHeight(true); // Chiều cao của footer
-//            var containerTop = alertQueue.offset().top; // Vị trí của alertQueue tính từ đầu trang
-//            var windowHeight = $(window).height(); // Chiều cao của cửa sổ
-
-//            // Tính chiều cao của alertQueue để nó không bị đè lên footer
-//            var availableHeight = windowHeight - (containerTop + footerHeight + 20); // Cộng thêm 20px khoảng trống để cuộn mượt hơn
-//            alertQueue.css('max-height', availableHeight + 'px');
-//        }
-
-//        // Hàm cập nhật chiều cao của #alert-body
-//        function updateTbodyHeight() {
-//            var $thead = alertQueue.find('thead');
-//            var theadHeight = $thead.outerHeight(true); // Chiều cao của thead
-
-//            // Cập nhật chiều cao của #alert-body dựa trên chiều cao của alertQueue
-//            var tbodyHeight = alertQueue.height() - theadHeight;
-
-//            // Cập nhật chiều cao của #alert-body
-//            alertQueue.find('#alert-body').css('max-height', tbodyHeight + 'px');
-//        }
-
-//    // Function to update the alerts based on new data
-//    function updateAlerts(employeeData) {
-//        var seenEmployees = new Set();
-//        var hasData = false;
-//        var rows = [];
-//        var updatedRows = {};
-//        var $tbody = alertQueue.find('#alert-body');
-//        var selectedDoors = getSelectedDoors(); // Get the selected doors
-//        currentData = {};
-
-//        $.each(employeeData, function (index, employee) {
-//            var errorCode = employee.ErrorCode.toLowerCase();
-//            var employeeTime = moment(employee.ThoiGian).valueOf();
-
-//            // Check if the employee's door is in the selected doors
-//            if (selectedDoors.length > 0 && !selectedDoors.includes(employee.Door)) {
-//                if (errorCode === 'pass') {
-//                    var $alertItem = currentData[employee.MaThe];
-//                    if ($alertItem) {
-//                        $alertItem.fadeOut(function () {
-//                            $alertItem.remove();
-//                            delete currentData[employee.MaThe];
-//                            checkAndHideTable();
-//                        });
-//                    }
-//                } else {
-//                    hasData = true;
-//                    var existingAlertItem = currentData[employee.MaThe];
-//                    if (existingAlertItem) {
-//                        var existingTime = moment(existingAlertItem.find('td').eq(5).text(), 'YYYY/MM/DD HH:mm:ss').valueOf();
-//                        if (employeeTime > existingTime) {
-//                            existingAlertItem.find('td').eq(1).text(employee.HoTen);
-//                            existingAlertItem.find('td').eq(2).text(employee.TenBoPhan);
-//                            existingAlertItem.find('td').eq(4).text(employee.Status);
-//                            existingAlertItem.find('td').eq(5).text(moment(employee.ThoiGian).format('YYYY/MM/DD HH:mm:ss'));
-//                            updatedRows[employee.MaThe] = existingAlertItem;
-//                        }
-//                    } else {
-//                        var $newRow = $(`
-//                        <tr class="table-danger text-white custom-tbody text-bg-danger">
-//                            <td>${employee.MaThe}</td>
-//                            <td>${employee.HoTen}</td>
-//                            <td>${employee.TenBoPhan}</td>       
-//                            <td>${employee.Status}</td>
-//                            <td>${moment(employee.ThoiGian).format('YYYY/MM/DD HH:mm:ss')}</td>
-//                        </tr>
-//                    `);
-//                        rows.push($newRow);
-//                        currentData[employee.MaThe] = $newRow;
-//                    }
-//            }
-
-          
-            
-//            }
-//        });
-
-//        if (rows.length > 0) {
-//            $tbody.prepend(rows); // Prepend new rows
-//        }
-
-//        $.each(updatedRows, function (key, row) {
-//            row.fadeIn(); // Fade in updated rows
-//        });
-
-//        checkAndHideTable(); // Check and hide table if no data
-//    }
-
-//    // Update container and tbody height on window resize
-//    $(window).resize(function () {
-//        updateContainerHeight();
-//        updateTbodyHeight();
-//    });
-
-//    // SignalR client-side method to receive data
-//    esdFaceHub.client.updateEmployeeData = function (employeeData) {
-//        console.log('Received data:', employeeData);
-//        createTableIfNeeded();
-//        updateAlerts(employeeData);
-//        updateContainerHeight();
-//        updateTbodyHeight();
-//    };
-
-//    // Connect to SignalR Hub and fetch data every 4 seconds
-//    $.connection.hub.start().done(function () {
-//        console.log('SignalR connected.');
-//        fetchData(); // Lần đầu tiên lấy dữ liệu ngay khi kết nối
-//        setInterval(function () {
-//            fetchData(); // Gọi hàm fetchData mỗi 4 giây
-//        }, 4000); // Every 4 seconds
-//    });
-
-//    // Fetch data based on selected doors
-//    window.fetchData = function () {
-//        var equNo = getSelectedDoors(); // Lấy danh sách cổng đã chọn
-//        if (equNo.length > 0) {
-//            esdFaceHub.server.getEmployeeData(equNo); // Fetch new employee data
-//        }
-//    };
-
-//    // Update container height on page load
-//    updateContainerHeight();
-//    updateTbodyHeight();
-//});
 $(function () {
     var esdFaceHub = $.connection.eSDFaceHub;
     var alertQueue = $('.table-wrapper'); // Element that holds the alerts
     var currentData = {}; // Object to store current alert data keyed by card code
 
+    // Dữ liệu tầng tương ứng với từng xưởng
+    // Dữ liệu các tầng theo từng xưởng
+    // Dữ liệu các tầng theo từng xưởng
+    var floorData = {
+        'F06': ['1F', '2F'],
+        'F16': ['3F']
+    };
+
     // Hàm cập nhật dropdown từ URL
     function updateDropdownFromUrl() {
         var urlParams = new URLSearchParams(window.location.search);
-        var equNoFromUrl = urlParams.get('Equno');
+        var workshopFromUrl = urlParams.get('Factory'); // Lấy Factory từ URL
+        var floorFromUrl = urlParams.get('Floor'); // Lấy Floor từ URL
 
-        // Cập nhật giá trị dropdown và lấy dữ liệu nếu có Equno từ URL
-        if (equNoFromUrl) {
-            $('#equNo').val(equNoFromUrl); // Cập nhật dropdown với giá trị từ URL
-            fetchData(); // Gọi hàm fetchData để lấy dữ liệu cho cửa đã chọn
+        // Cập nhật giá trị dropdown với Factory từ URL
+        if (workshopFromUrl) {
+            $('#workshop').val(workshopFromUrl); // Cập nhật dropdown với giá trị từ URL
+            updateFloors(workshopFromUrl, floorFromUrl); // Cập nhật tầng sau khi xưởng được chọn
         }
+
+        // Cập nhật giá trị dropdown với Floor từ URL
+        if (floorFromUrl) {
+            $('#floor').val(floorFromUrl); // Cập nhật dropdown với giá trị từ URL
+        }
+
+        // Gọi fetchData chỉ khi cả workshop và floor đều có giá trị
+        fetchData();
+    }
+
+    // Hàm cập nhật tầng
+    window.updateFloors = function (workshop, floorFromUrl) {
+        var $floorSelect = $('#floor');
+        $floorSelect.empty();
+        $floorSelect.append('<option value="">Chọn tầng</option>');
+
+        console.log('Selected workshop:', workshop); // Debug
+        if (floorData[workshop]) {
+            floorData[workshop].forEach(function (floor) {
+                $floorSelect.append('<option value="' + floor + '">' + floor + '</option>');
+            });
+        } else {
+            console.log('No floors available for this workshop.'); // Debug
+        }
+
+        // Cập nhật lại giá trị floor nếu có từ URL
+        if (floorFromUrl) {
+            $floorSelect.val(floorFromUrl); // Đặt giá trị cho floor từ URL
+        }
+
+        updateUrl($floorSelect.val()); // Cập nhật URL với giá trị floor hiện tại
+        fetchData(); // Gọi fetchData sau khi cập nhật tầng
+    };
+
+    // Hàm cập nhật URL
+    function updateUrl(selectedFloor) {
+        var workshop = $('#workshop').val();
+        var url = new URL(window.location);
+        url.pathname = '/'; // Đặt lại pathname thành gốc
+        url.searchParams.set('Factory', workshop); // Thêm tham số Factory
+        url.searchParams.set('Floor', selectedFloor); // Cập nhật tham số Floor, nếu không có thì để trống
+        history.replaceState(null, '', url); // Thay đổi URL mà không làm mới trang
     }
 
     // Hàm fetchData
-    function fetchData() {
-        var equNo = $('#equNo').val();
+    window.fetchData = function () {
+        var workshop = $('#workshop').val();
+        var floor = $('#floor').val();
         if (esdFaceHub.connection.state === $.signalR.connectionState.connected) { // Kiểm tra trạng thái kết nối
-            if (equNo) {
-                esdFaceHub.server.getEmployeeData(equNo);
+            if (workshop && floor) {
+                esdFaceHub.server.getEmployeeData(workshop, floor); // Gọi phương thức lấy dữ liệu với xưởng và tầng
             }
         } else {
             console.log('SignalR connection not established.');
         }
-    }
+    };
 
-    // Lắng nghe sự kiện thay đổi trên <select>
-    $('#equNo').change(function () {
-        var equNo = $(this).val();
-        var url = new URL(window.location);
-        url.searchParams.set('Equno', equNo); // Cập nhật tham số Equno trong URL
-        history.replaceState(null, '', url); // Thay đổi URL mà không làm mới trang
+    // Gán sự kiện change cho #workshop
+    $('#workshop').change(function () {
+        var workshop = $(this).val();
+        updateFloors(workshop); // Cập nhật tầng khi chọn xưởng
+    });
+
+    // Gán sự kiện change cho #floor
+    $('#floor').change(function () {
+        var selectedFloor = $(this).val();
+        updateUrl(selectedFloor); // Cập nhật URL khi chọn tầng
         fetchData(); // Gọi hàm fetchData
     });
+
+    // Gọi hàm updateDropdownFromUrl khi trang được tải
+    $(document).ready(function () {
+        updateDropdownFromUrl(); // Cập nhật dropdown từ URL
+    });
+
+
+
 
     // Hàm kiểm tra và ẩn bảng nếu không có cảnh báo
     function checkAndHideTable() {
@@ -426,37 +309,63 @@ $(function () {
 
     // Hàm cập nhật cảnh báo dựa trên dữ liệu mới
     function updateAlerts(employeeData) {
-        var seenEmployees = new Set();
-        var hasData = false;
-        var rows = [];
-        var updatedRows = {};
-        var $tbody = alertQueue.find('#alert-body');
-        currentData = {};
+        var hasData = false; // Biến để kiểm tra xem có dữ liệu không
+        var rows = []; // Mảng để lưu trữ hàng dữ liệu
 
+        // Lặp qua dữ liệu mới để cập nhật thông báo
         $.each(employeeData, function (index, employee) {
-            var errorCode = employee.ErrorCode.toLowerCase();
-            var employeeTime = moment(employee.ThoiGian).valueOf();
+            var errorCode = employee.ErrorCode.toLowerCase(); // Chuyển mã lỗi thành chữ thường
+            var employeeTime = moment(employee.ThoiGian).valueOf(); // Chuyển thời gian thành giá trị số để so sánh
 
-            // Kiểm tra xem cửa của nhân viên có trong danh sách đã chọn không
-            if (errorCode !== 'pass') {
-                hasData = true;
-                var $newRow = $(`<tr class="table-danger text-white custom-tbody text-bg-danger">
-                                    <td>${employee.MaThe}</td>
-                                    <td>${employee.HoTen}</td>
-                                    <td>${employee.TenBoPhan}</td>
-                                    <td>${employee.Status}</td>
-                                    <td>${moment(employee.ThoiGian).format('YYYY/MM/DD HH:mm:ss')}</td>
-                                </tr>`);
-                rows.push($newRow);
-                currentData[employee.MaThe] = $newRow;
+            if (errorCode === 'pass') {
+                // Nếu trạng thái là pass, xóa thông báo lỗi liên quan
+                var $alertItem = currentData[employee.MaThe];
+                if ($alertItem) {
+                    $alertItem.fadeOut(function () {
+                        $alertItem.remove(); // Xóa phần tử thông báo sau khi ẩn
+                        delete currentData[employee.MaThe]; // Cập nhật dữ liệu hiện tại
+                        checkAndHideTable(); // Kiểm tra và ẩn bảng nếu không còn thông báo
+                    });
+                }
+            } else {
+                // Nếu trạng thái là fail, kiểm tra và thêm thông báo lỗi mới nếu chưa thấy
+                hasData = true; // Đặt cờ có dữ liệu
+                var existingAlertItem = currentData[employee.MaThe];
+
+                if (existingAlertItem) {
+                    // Nếu hàng đã tồn tại và thời gian mới hơn thì cập nhật
+                    var existingTime = moment(existingAlertItem.find('td').eq(4).text(), 'YYYY/MM/DD HH:mm:ss').valueOf();
+                    if (employeeTime > existingTime) {
+                        existingAlertItem.find('td').eq(1).text(employee.HoTen);
+                        existingAlertItem.find('td').eq(2).text(employee.TenBoPhan);
+                        existingAlertItem.find('td').eq(3).text(employee.Status);
+                        existingAlertItem.find('td').eq(4).text(moment(employee.ThoiGian).format('YYYY/MM/DD HH:mm:ss'));
+                        existingAlertItem.fadeIn(); // Hiển thị thông báo đã cập nhật
+                    }
+                } else {
+                    // Nếu hàng chưa tồn tại thì thêm vào mảng hàng mới
+                    var $newRow = $(`
+                    <tr class="table-danger text-white custom-tbody text-bg-danger">
+                        <td>${employee.MaThe}</td>
+                        <td>${employee.HoTen}</td>
+                        <td>${employee.TenBoPhan}</td>
+                        <td>${employee.Status}</td>
+                        <td>${moment(employee.ThoiGian).format('YYYY/MM/DD HH:mm:ss')}</td>
+                    </tr>
+                `);
+                    rows.push($newRow); // Thêm đối tượng jQuery vào mảng hàng
+                    currentData[employee.MaThe] = $newRow; // Lưu trữ đối tượng jQuery trong currentData
+                }
             }
         });
 
+        // Thêm tất cả các hàng dữ liệu vào tbody
         if (rows.length > 0) {
-            $tbody.prepend(rows); // Prepend new rows
+            var $tbody = alertQueue.find('#alert-body');
+            $tbody.prepend(rows); // Thêm các hàng dữ liệu vào đầu tbody
         }
 
-        checkAndHideTable(); // Check and hide table if no data
+        checkAndHideTable(); // Kiểm tra và ẩn bảng nếu không có dữ liệu
     }
 
     // Cập nhật chiều cao khi resize
@@ -488,5 +397,4 @@ $(function () {
     updateContainerHeight();
     updateTbodyHeight();
 });
-
 
