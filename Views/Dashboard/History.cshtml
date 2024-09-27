@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API to Table</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap Table CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.18.3/bootstrap-table.min.css">
+    <link rel="stylesheet" href="~/Content/css/history.css">
+ 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h2 class="my-4 text-center">Employee Data</h2>
+
+        <div class="table-responsive ">
+            <table id="employeeTable"
+                   class="table table-bordered table-hover"
+                   data-toggle="table"
+                   data-pagination="true"
+                   data-search="true">
+                <thead class="thead-dark text-bg-info text-white">
+                    <tr>
+                        <th data-field="MaThe">Mã Thẻ</th>
+                        <th data-field="HoTen">Họ Tên</th>
+                        <th data-field="TenBoPhan">Tên Bộ Phận</th>
+                        <th data-field="ErrorCode">Mã Lỗi</th>
+                        <th data-field="Status">Trạng Thái</th>
+                        <th data-field="ThoiGian">Thời Gian</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                    <!-- Dữ liệu từ API sẽ được chèn ở đây -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+  <script>
+    $(document).ready(function () {
+        // Gọi API qua proxy
+        $.ajax({
+            url: "/Dashboard/GetEmployeeData",
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                if (response.Status === "OK" && response.Code === 200) {
+                    const employeeData = response.Result;
+                    let tableRows = '';
+
+                    // Tạo các hàng dữ liệu từ API
+                    employeeData.forEach(function (employee) {
+                        let errorColor = employee.ErrorCode === 'PASS' ? 'text-success' : 'text-danger'; // Xanh nếu PASS, Đỏ nếu FAIL
+                        let statusColor = employee.Status === 'OK' ? 'text-success' : 'text-danger';  // Thêm điều kiện màu cho Status
+
+                        tableRows += `
+                            <tr>
+                                <td>${employee.MaThe}</td>
+                                <td>${employee.HoTen}</td>
+                                <td>${employee.TenBoPhan}</td>
+                                <td class="${errorColor}">${employee.ErrorCode}</td>
+                                <td class="${statusColor}">${employee.Status || 'N/A'}</td>
+                                <td>${employee.ThoiGian}</td>
+                            </tr>`;
+                    });
+
+                    // Chèn dữ liệu vào bảng
+                    $('#employeeTableBody').html(tableRows);
+
+                    // Khởi tạo lại Bootstrap Table
+                    $('#employeeTable').bootstrapTable('load', employeeData);
+                } else {
+                    alert("Không lấy được dữ liệu: " + response.Message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi gọi API: " + error);
+            }
+        });
+    });
+</script>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Table JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.18.3/bootstrap-table.min.js"></script>
+
+</body>
+</html>

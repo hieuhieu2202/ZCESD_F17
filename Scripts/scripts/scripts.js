@@ -266,7 +266,7 @@ $(function () {
         // Kiểm tra xem xưởng có tồn tại trong dữ liệu không
         if (workshopFromUrl && floorData[workshopFromUrl]) {
             // Cập nhật và hiển thị kết quả
-            console.log('Selected workshop:', workshopFromUrl);
+            //console.log('Selected workshop:', workshopFromUrl);
 
             // Cập nhật tầng
             updateFloors(workshopFromUrl, floorFromUrl);
@@ -277,14 +277,14 @@ $(function () {
 
     // Hàm cập nhật tầng
     window.updateFloors = function (workshop, floorFromUrl) {
-        console.log('Updating floors for workshop:', workshop); // Debug
+        //console.log('Updating floors for workshop:', workshop); // Debug
         if (floorData[workshop]) {
             // Hiển thị tầng hợp lệ
-            console.log('Floors available:', floorData[workshop]);
+            //console.log('Floors available:', floorData[workshop]);
 
             // Nếu có tầng từ URL, kiểm tra tính hợp lệ
             if (floorFromUrl && floorData[workshop].includes(floorFromUrl)) {
-                console.log('Selected floor:', floorFromUrl); // Debug
+                //console.log('Selected floor:', floorFromUrl); // Debug
                 fetchData(workshop, floorFromUrl); // Gọi hàm fetchData với thông tin đã chọn
             } else {
                 console.log('Floor không hợp lệ hoặc không có dữ liệu.');
@@ -330,7 +330,12 @@ $(function () {
     function createTableIfNeeded() {
         if (alertQueue.find('table').length === 0) {
             alertQueue.append(`
-                <table class="table table-bordered table-hover table-striped text-center custom-table">
+                <table class="table table-bordered table-hover table-striped text-center custom-table"
+                  id="table"
+                  data-toggle="table"
+                  data-height="460"
+                  data-pagination="true"
+                  data-search="true">
                     <thead class="text-yellow">
                         <tr>
                             <th>Mã thẻ<br />卡码</th>
@@ -434,7 +439,7 @@ $(function () {
 
     // Nhận dữ liệu từ SignalR
     esdFaceHub.client.updateEmployeeData = function (employeeData) {
-        console.log('Received data:', employeeData);
+        //console.log('Received data:', employeeData);
         createTableIfNeeded();
         updateAlerts(employeeData);
         updateContainerHeight();
