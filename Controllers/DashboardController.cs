@@ -11,7 +11,6 @@ namespace TestZCESD.Controllers
             return View();
         }
 
-        // Proxy action để gọi API
         public async Task<ActionResult> GetEmployeeData()
         {
             using (var client = new HttpClient())
@@ -20,6 +19,10 @@ namespace TestZCESD.Controllers
                 var content = await response.Content.ReadAsStringAsync();
                 return Content(content, "application/json");
             }
+        }
+        public ActionResult FullScreenHistory()
+        {
+            return View();
         }
     }
 }
